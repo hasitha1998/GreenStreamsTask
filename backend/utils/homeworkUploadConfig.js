@@ -13,6 +13,7 @@ const storage = new CloudinaryStorage({
   params: {
     folder: 'home_work',
     format: async (req, file) => 'pdf',
+    resource_type: 'auto',
     public_id: (req, file) => `pdfFile_${Date.now()}`,
   },
 });

@@ -1,8 +1,21 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button, Card, CardContent, Container, Typography } from '@mui/material';
 
 function Home() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const studentId = localStorage.getItem('studentId');
+    const teacherId = localStorage.getItem('teacherId');
+
+    if (studentId) {
+      navigate('/student-dashboard');
+    } else if (teacherId) {
+      navigate('/teacher-dashboard');
+    }
+  }, [navigate]);
+
   return (
     <Container sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
       <Card variant="outlined">

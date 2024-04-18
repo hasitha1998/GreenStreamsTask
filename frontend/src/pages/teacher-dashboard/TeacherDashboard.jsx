@@ -6,8 +6,6 @@ import TeacherProfileCard from '../profile-cards/TeacherProfileCard'; // You'll 
 import TeacherViewAllCourse from '../teacher-view-course/TeacherViewAllCourse';
 import CourseCreate from '../create-course/CourseCreate';
 
-
-
 function TeacherDashboard() {
   const navigate = useNavigate();
   const [teacherDetails, setTeacherDetails] = useState(null);
@@ -38,6 +36,11 @@ function TeacherDashboard() {
     navigate('/teacher-login');
   };
 
+  const handleViewHomework = () => {
+    // Navigate to the page where all homework assignments are displayed
+    navigate('/view-all-homework');
+  };
+
   return (
     <div>
       <AppBar position="static">
@@ -47,6 +50,9 @@ function TeacherDashboard() {
           </Typography>
           <Button color="inherit" onClick={handleLogout}>
             {isLoggedIn ? 'Logout' : 'Login'}
+          </Button>
+          <Button color="inherit" onClick={handleViewHomework}>
+            View All Homework
           </Button>
         </Toolbar>
       </AppBar>
