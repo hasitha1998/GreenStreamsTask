@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TextField, Button, Typography, Container, Grid, Paper } from '@mui/material';
 
-const TeacherSignup = () => {
+const StudentSignup = () => {
   const navigate = useNavigate();
-  const [teacherName, setTeacherName] = useState('');
-  const [teacherEmail, setTeacherEmail] = useState('');
-  const [teacherPassword, setTeacherPassword] = useState('');
+  const [studentName, setStudentName] = useState('');
+  const [studentEmail, setStudentEmail] = useState('');
+  const [studentPassword, setStudentPassword] = useState('');
   const [profilePic, setProfilePic] = useState(null);
   const [error, setError] = useState('');
 
@@ -18,20 +18,20 @@ const TeacherSignup = () => {
     e.preventDefault();
     try {
       const formData = new FormData();
-      formData.append('teacherName', teacherName);
-      formData.append('teacherEmail', teacherEmail);
-      formData.append('teacherPassword', teacherPassword);
+      formData.append('studentName', studentName);
+      formData.append('studentEmail', studentEmail);
+      formData.append('studentPassword', studentPassword);
       formData.append('profilePic', profilePic);
 
-      const response = await fetch('http://localhost:5000/api/teachers/register', {
+      const response = await fetch('http://localhost:5000/api/students/register', {
         method: 'POST',
         body: formData,
       });
 
       if (response.ok) {
         const data = await response.json(); // Parse response body as JSON
-        console.log(data);
-        navigate('/teacher-login'); // Redirect to login page after successful signup
+        console.log(data); 
+        navigate('/student-login'); // Redirect to login page after successful signup
       } else {
         const data = await response.json();
         setError(data.message);
@@ -46,7 +46,7 @@ const TeacherSignup = () => {
     <Container maxWidth="sm">
       <Paper elevation={3} sx={{ mt: 10, p: 4 }}>
         <Typography variant="h4" gutterBottom align="center">
-          Teacher Signup
+          Student Signup
         </Typography>
         <form onSubmit={handleSignup}>
           {error && (
@@ -58,36 +58,36 @@ const TeacherSignup = () => {
             <Grid item xs={12}>
               <TextField
                 fullWidth
-                id="teacherName"
+                id="studentName"
                 type="text"
                 label="Name"
                 variant="outlined"
-                value={teacherName}
-                onChange={(e) => setTeacherName(e.target.value)}
+                value={studentName}
+                onChange={(e) => setStudentName(e.target.value)}
                 required
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
                 fullWidth
-                id="teacherEmail"
+                id="studentEmail"
                 type="email"
                 label="Email"
                 variant="outlined"
-                value={teacherEmail}
-                onChange={(e) => setTeacherEmail(e.target.value)}
+                value={studentEmail}
+                onChange={(e) => setStudentEmail(e.target.value)}
                 required
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
                 fullWidth
-                id="teacherPassword"
+                id="studentPassword"
                 type="password"
                 label="Password"
                 variant="outlined"
-                value={teacherPassword}
-                onChange={(e) => setTeacherPassword(e.target.value)}
+                value={studentPassword}
+                onChange={(e) => setStudentPassword(e.target.value)}
                 required
               />
             </Grid>
@@ -116,4 +116,4 @@ const TeacherSignup = () => {
   );
 };
 
-export default TeacherSignup;
+export default StudentSignup;

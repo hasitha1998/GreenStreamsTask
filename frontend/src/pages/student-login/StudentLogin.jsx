@@ -2,33 +2,32 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { TextField, Button, Typography, Container, Grid, Paper } from '@mui/material';
 
-const Login = () => {
+const StudentLogin = () => {
   const navigate = useNavigate();
-  const [teacherEmail, setTeacherEmail] = useState('');
-  const [teacherPassword, setTeacherPassword] = useState('');
+  const [studentEmail, setStudentEmail] = useState('');
+  const [studentPassword, setStudentPassword] = useState('');
   const [error, setError] = useState('');
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:5000/api/teachers/login', {
+      const response = await fetch('http://localhost:5000/api/students/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          teacherEmail,
-          teacherPassword,
+          studentEmail,
+          studentPassword,
         }),
       });
 
       if (response.ok) {
         const data = await response.json();
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('teacherId', data._id);
-        localStorage.setItem('teacherEmail', data.email);
-        console.log("login success")
-        navigate('/teacher-dashboard'); // Navigate to dashboard or any other route after successful login
+        localStorage.setItem('studentToken', data.token);
+        localStorage.setItem('studentId', data._id);
+        localStorage.setItem('studentEmail', data.email);
+        navigate('/student-dashboard'); // Redirect to dashboard or any other route after successful login
       } else {
         setError('Invalid email or password');
       }
@@ -42,7 +41,7 @@ const Login = () => {
     <Container maxWidth="sm">
       <Paper elevation={3} sx={{ mt: 10, p: 4 }}>
         <Typography variant="h4" gutterBottom align="center">
-          Teacher Login
+          Student Login
         </Typography>
         <form onSubmit={handleLogin}>
           {error && (
@@ -54,24 +53,24 @@ const Login = () => {
             <Grid item xs={12}>
               <TextField
                 fullWidth
-                id="teacherEmail"
+                id="studentEmail"
                 type="email"
                 label="Email"
                 variant="outlined"
-                value={teacherEmail}
-                onChange={(e) => setTeacherEmail(e.target.value)}
+                value={studentEmail}
+                onChange={(e) => setStudentEmail(e.target.value)}
                 required
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
                 fullWidth
-                id="teacherPassword"
+                id="studentPassword"
                 type="password"
                 label="Password"
                 variant="outlined"
-                value={teacherPassword}
-                onChange={(e) => setTeacherPassword(e.target.value)}
+                value={studentPassword}
+                onChange={(e) => setStudentPassword(e.target.value)}
                 required
               />
             </Grid>
@@ -85,10 +84,9 @@ const Login = () => {
           >
             Login
           </Button>
-
           <Typography variant="body1" align="center" sx={{ mt: 2 }}>
-            New Teacher? 
-            <Button component={Link} to="/teacher-signup" color="primary">
+            New Student? 
+            <Button component={Link} to="/student-signup" color="primary">
               Please Signup
             </Button>
           </Typography>
@@ -98,4 +96,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default StudentLogin;

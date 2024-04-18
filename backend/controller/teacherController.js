@@ -116,4 +116,23 @@ const logoutTeacher = asyncHandler(async (req, res) => {
   res.status(200).json({ message: 'Teacher logged out' });
 });
 
-module.exports = { authTeacher, registerTeacher, updateTeacherProfile, deleteTeacherProfile, logoutTeacher };
+// Get single teacher by ID
+// GET /api/teachers/:id
+// Private
+const getTeacherById = asyncHandler(async (req, res) => {
+  const teacher = await Teacher.findById(req.params.id);
+
+  if (teacher) {
+    res.json({
+      _id: teacher._id,
+      name: teacher.teacherName,
+      email: teacher.teacherEmail,
+      profilePic: teacher.profilePic,
+    });
+  } else {
+    res.status(404);
+    throw new Error('Teacher not found');
+  }
+});
+
+module.exports = { authTeacher, registerTeacher, updateTeacherProfile, deleteTeacherProfile, logoutTeacher,getTeacherById };

@@ -8,6 +8,12 @@ const connectDB = require('./config/db');
 const port = process.env.PORT || 5000;
 const userRoutes = require('./routes/userRoutes');
 const teacherRoutes = require('./routes/teacherRoutes');
+const studentRoutes = require('./routes/studentRoutes');
+const courseRoutes = require('./routes/courseRoutes'); 
+const paymentRoutes = require('./routes/paymentRoutes'); 
+const homeworkRoutes = require('./routes/homeworkRoutes'); 
+
+
 
 connectDB();
 
@@ -27,6 +33,11 @@ app.use(
 
 app.use('/api/users',cors(), userRoutes);
 app.use('/api/teachers', cors(), teacherRoutes);
+app.use('/api/students', cors(), studentRoutes);
+app.use('/api/courses', cors(), courseRoutes); // Mount course routes
+app.use('/api/payment', cors(), paymentRoutes);
+app.use('/api/homework', cors(), homeworkRoutes);
+
   
   
 app.get('/', (req, res) => res.send('Server is ready'));

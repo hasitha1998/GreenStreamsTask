@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import TeacherAPI from './api/teacherApi';
 
 const TeacherContext = createContext();
@@ -7,7 +7,6 @@ export const useTeacherContext = () => useContext(TeacherContext);
 
 export const TeacherProvider = ({ children }) => {
   const [teachers, setTeachers] = useState([]);
-
   const [teacher, setTeacher] = useState({
     teacherName: "",
     teacherEmail: "",
@@ -15,15 +14,29 @@ export const TeacherProvider = ({ children }) => {
     profilePic: "",
   });
 
-  const teacherLogin = async (email, password) => {
+  const teacherLogin = async (teacherEmail, teacherPassword) => {
     try {
-      const response = await TeacherAPI.login(email, password);
-      setTeacher(response.data);
-      console.log('Login successful:', response.data);
+      const response = await TeacherAPI.login(teacherEmail, teacherPassword);
+      if (response.status === 200) {
+        const data = response.data;
+        localStorage.setItem('token', data.token);
+        setTeachers(data.teachers);
+        console.log('Login successful. Response:', data);
+        console.log('Email:', teacherEmail);
+      } else {
+        console.error('Login failed. Server responded with status:', response.status);
+      }
     } catch (error) {
       console.error('Login failed:', error);
     }
   };
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      console.log('Token retrieved from local storage:', token);
+    }
+  }, []);
 
   const teacherRegister = async (teacherData) => {
     try {
@@ -66,7 +79,6 @@ export const TeacherProvider = ({ children }) => {
   };
 
   return (
-  
     <TeacherContext.Provider value={{ teachers, teacherLogin, getAllTeachers, getOneTeacher, deleteTeacher, teacher, setTeacher , teacherRegister}}>
       {children}
     </TeacherContext.Provider>

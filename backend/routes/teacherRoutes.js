@@ -6,6 +6,7 @@ const {
   updateTeacherProfile,
   deleteTeacherProfile,
   logoutTeacher,
+  getTeacherById
 } = require('../controller/teacherController');
 
 const router = express.Router();
@@ -16,5 +17,7 @@ router.post('/login',upload.single(null), authTeacher);
 router.put('/profile', updateTeacherProfile);
 router.delete('/profile', deleteTeacherProfile);
 router.post('/logout', logoutTeacher);
+router.get('/:id', getTeacherById);
+
 
 module.exports = router;
